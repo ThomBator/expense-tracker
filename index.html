@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+  </head>
+  <body>
+    <h1>Current Balance: $20</h1>
+    <div class="flex">
+      <form class="flex">
+        <h2>Add a new transaction</h2>
+        <div>
+          <label for="transaction-type">Select transaction type: </label>
+          <select id="transaction-type" name="transaction-type">
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+          </select>
+        </div>
+        <div>
+          <label for="description">Transaction description</label>
+          <input id="description" type="text" />
+        </div>
+        <div>
+          <label for="ammount">Ammount</label>
+          <input id="ammount" type="text" />
+        </div>
+        <div>
+          <button>Add</button>
+        </div>
+      </form>
+      <div class="flex">
+        <div>Expenses placeholder</div>
+        <div>Income placeholder</div>
+      </div>
+    </div>
+  </body>
+</html>
