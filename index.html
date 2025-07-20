@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div class="app-container">
+    <main class="app-container">
       <h1 id="balance">Balance:</h1>
       <form id="transaction-form">
         <div class="input-container">
@@ -42,17 +42,17 @@
 
       <div class="transactions-container">
         <div id="expenses-container" class="transactions-card">
-          <h3>Expenses</h3>
+          <h2>Expenses</h2>
           <ul id="expenses-list"></ul>
           <p id="expenses-total" class="total"></p>
         </div>
         <div id="income-container" class="transactions-card">
-          <h3>Income</h3>
+          <h2>Income</h2>
           <ul id="income-list"></ul>
           <p id="income-total" class="total"></p>
         </div>
       </div>
-    </div>
+    </main
 
     <!-- Template for expenses-->
     <template id="transaction-card-template">

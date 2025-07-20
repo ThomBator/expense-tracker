@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 3rem;
+  padding: 2rem;
   gap: 2rem;
 }
 
@@ -44,13 +44,12 @@
 
 .transactions-card {
   display: flex;
-  height: 60vw;
-  width: 30vw;
-  min-width: 300px;
+  height: 80vh;
+  width: 50%;
+  flex: 1;
   flex-direction: column;
-  flex-grow: 1;
   gap: 0.5rem;
-  padding: 5rem;
+  padding: 2rem;
   position: relative;
   background-color: #fffffa;
   border-radius: 0.25rem;
@@ -58,13 +57,16 @@
 }
 
 .transactions-card ul {
-  overflow-y: auto;
+  overflow-y: scroll;
+  max-height: 100%;
+  padding-inline: 0.5rem;
 }
 
 .total {
   position: absolute;
   bottom: 10px;
   font-weight: 600;
+   
 }
 
 .transaction-line-item {
@@ -73,6 +75,10 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+}
+
+.transaction-line-item:last-of-type {
+    margin-bottom: 3rem;
 }
 
 /*Styling dollar sign to be inside input field*/
@@ -127,12 +133,12 @@ button:hover {
     margin-top: 0; 
 }  
 
-  
-
- 
-
   .transactions-card {
     align-items: center;
-    width: 80vw;
+    width: 100%; 
+    padding-top: 0.5rem;
+    padding-inline: 0; 
+    margin-inline: 0; 
+    
   }
 }
