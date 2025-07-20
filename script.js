@@ -78,7 +78,7 @@ class App {
     const date = lineItem.querySelector(".transaction-date");
     //Update fields
     description.innerText = transaction.description;
-    amount.innerText = transaction.amount;
+    amount.innerText = `\$${transaction.amount}`;
     //The logic for setting dates was a bit messy so I created a helper function
     this.#setLineItemDate(transaction.date, date);
     if (transaction.type === "expense") {
@@ -94,11 +94,14 @@ class App {
   }
 
   #setLineItemDate(transactionDate, dateElement) {
+    console.log('tDate', transactionDate);
     //New transaction objects have a date object attached, but when the json is parsed from localStorage date was returning as a string
-    let dateObj = typeof transactionDate === "string" ? new Date(transactionDate) : transactionDate;
-    //although unlikely for this toy app, I have made sure that years starting with 0 will be adjusted to 2 digits
-    dateElement.innerText = `${dateObj.getDay()}/${dateObj.getMonth()}/${dateObj
-      .getFullYear()
+    let dateObj =
+      typeof transactionDate === "string"
+        ? new Date(transactionDate)
+        : transactionDate;
+    dateElement.innerText = `${(dateObj.getDate()).toString().padStart(2,'0')}/${(dateObj.getMonth() + 1).toString().padStart(2, '0')}/${(dateObj
+      .getFullYear() % 100)
       .toString()
       .padStart(2, "0")}`;
   }
@@ -151,10 +154,16 @@ class App {
     }, 0);
 
     console.log(this.#balance);
-    balance.innerText = `Balance: \$${this.#balance.toLocaleString("en")}`;
+    //put minus sign before dollar sign for negative number
+    if (this.#balance < 0) {
+      const posBalance = this.#balance * -1;
+      balance.innerText = `Balance: -\$${posBalance.toLocaleString("en")}`;
+    } else {
+      balance.innerText = `Balance: \$${this.#balance.toLocaleString("en")}`;
+    }
   }
 
-  //Sets/updates totals for Expense and Income transaction lists 
+  //Sets/updates totals for Expense and Income transaction lists
   #setCategoryTotal(category) {
     const categoryTotal = this.#transactions.reduce(
       (accumulater, transaction) => {
@@ -163,14 +172,13 @@ class App {
       },
       0
     );
-    if (category === "expense") {
-      const totalElement = document.getElementById("expenses-total");
-      totalElement.innerText = `Total \$${categoryTotal.toLocaleString("en")}`;
-    }
-    else if (category === "income") {
-      const totalElement = document.getElementById("income-total");
-      totalElement.innerText = `Total \$${categoryTotal.toLocaleString("en")}`;
-    }
+
+    let totalElement = document.getElementById("expenses-total");
+
+    if (category === "income") totalElement = document.getElementById("income-total");
+    
+    totalElement.innerText = `Total: \$${categoryTotal.toLocaleString("en")}`;
+    
   }
 
   //Create a random id
