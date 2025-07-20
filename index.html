@@ -4,35 +4,61 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Expense Tracker</title>
+    <script defer src="./script.js"></script>
   </head>
   <body>
-    <h1>Current Balance: $20</h1>
+    <h1 id="balance">Balance:</h1>
     <div class="flex">
-      <form class="flex">
-        <h2>Add a new transaction</h2>
+      <h2>Add a new transaction</h2>
+      <form id="transaction-form" class="flex">
         <div>
           <label for="transaction-type">Select transaction type: </label>
-          <select id="transaction-type" name="transaction-type">
+          <select id="transaction-type" name="transaction-type" required>
             <option value="expense">Expense</option>
             <option value="income">Income</option>
           </select>
         </div>
         <div>
           <label for="description">Transaction description</label>
-          <input id="description" type="text" />
+          <input id="description" type="text" required />
         </div>
         <div>
-          <label for="ammount">Ammount</label>
-          <input id="ammount" type="text" />
+          <label for="amount">Amount</label>
+          <div>
+            <span>$</span><input id="amount" type="currency" required />
+          </div>
         </div>
         <div>
           <button>Add</button>
         </div>
       </form>
       <div class="flex">
-        <div>Expenses placeholder</div>
-        <div>Income placeholder</div>
+        <div id="expenses-container">
+          Expenses placeholder
+          <ul id="expenses-list"></ul>
+          <p id="expenses-total"></p>
+        </div>
+        <div id="income-container">
+          Income placeholder
+
+          <ul id="income-list"></ul>
+          <p id="income-total"></p>
+        </div>
       </div>
     </div>
+
+    <!-- Template for expenses-->
+    <template id="transaction-card-template">
+      <li
+        class="transaction-line-item"
+        data-transaction-id=""
+        data-transaction-type=""
+      >
+        <p class="transaction-description"></p>
+        <p class="transaction-amount"></p>
+        <p class="transaction-date"></p>
+        <button class="delete-button">delete</button>
+      </li>
+    </template>
   </body>
 </html>
