@@ -43,6 +43,7 @@
 .transactions-card {
   display: flex;
   height: 80vh;
+  min-height: 600px;
   width: 40vh;
   flex: 1;
   flex-direction: column;
@@ -85,7 +86,9 @@
 
 .dollar-sign {
   position: absolute;
-  padding: 2px;
+  padding-top:5px;
+  padding-left:2px;
+  font-size: 1rem;
 }
 
 input,
@@ -117,6 +120,7 @@ button:hover {
 @media screen and (max-width: 1024px) {
   .app-container {
     align-items: flex-start;
+    padding: 1rem;
   }
 
   #transaction-form,
@@ -128,9 +132,14 @@ button:hover {
     margin-top: 0;
   }
 
+  .transactions-container {
+    padding: 0;
+    margin: 0; 
+    align-items: center;
+  }
   .transactions-card {
     align-items: center;
-    width: 100%;
+    width: 90vw;
     padding-top: 0.5rem;
     padding-inline: 0;
     margin-inline: 0;
