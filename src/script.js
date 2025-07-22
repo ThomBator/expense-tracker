@@ -58,7 +58,6 @@ class App {
   }
 
   #resetFields(type, description, amount) {
-    type.value = "expense";
     description.value = "";
     amount.value = "";
   }
