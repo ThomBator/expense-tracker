@@ -16,9 +16,9 @@
 
 #transaction-form {
   display: flex;
-  width: 100%;
-  justify-content: center;
-  gap: 1rem;
+  width: 60%;
+  justify-content: space-between;
+  gap: 2rem;
 }
 
 .input-container {
@@ -34,7 +34,7 @@
 }
 
 .transactions-container {
-  width: 40%; 
+  width: 60%; 
   display: flex;
   gap: 2rem;
   justify-content: center;
@@ -53,6 +53,10 @@
   background-color: #fffffa;
   border-radius: 0.25rem;
   box-shadow: 0px 0px 5px #a09797;
+}
+
+.transactions-card h2 {
+  margin-bottom: 0.5rem
 }
 
 .transactions-card ul {
