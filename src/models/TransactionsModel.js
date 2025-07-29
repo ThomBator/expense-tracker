@@ -6,23 +6,19 @@ class TransactionsModel {
   #balance;
   constructor() {
     this.#getIds();
-    this.transactions = JSON.parse(localStorage.getItem('transactions')) || []; 
+    this.#transactions = JSON.parse(localStorage.getItem("transactions")) || [];
   }
 
   bindTransactionsChange(callback) {
     this.onTransactionsChange = callback;
   }
 
-  addTransaction({type, description, amount}) {
+  addTransaction({ type, description, amount }) {
+    const newId = this.#generateId();
 
-    const newId = this.#generateId(); 
+    const newTransaction = new Transaction(type, description, amount, newId);
 
-    const newTransaction = new Transaction(
-      type,
-      description,
-      amount,
-      newId
-    );
+    console.log("new transaction", newTransaction);
     this.#transactions.push(newTransaction);
 
     this.#commit();
@@ -40,6 +36,10 @@ class TransactionsModel {
     this.#commit();
   }
 
+  getTransactions() {
+    return this.#transactions;
+  }
+
   //Check localStorage for existing ids
   #getIds() {
     const idsJSON = localStorage.getItem("ids");
@@ -51,15 +51,15 @@ class TransactionsModel {
   }
   //Check local storage for existing transactions
   #commit() {
-    this.onTransactionsChange(this.#transactions);
-
-    const transactionsJSON = localStorage.setItem("transactions");
+    console.log("made it to commit");
+    console.log("#transactions array", this.#transactions);
+    localStorage.setItem("transactions", JSON.stringify(this.#transactions));
+    this.onTransactionsChange();
   }
 
   //Create a random id
   #generateId() {
     let newId = Math.floor(Math.random() * (9_999_999 - 1_000_000) + 1_000_000);
-
     //Ensure the id is unique by checking the ids array
     //In a real app this would be enforced ad the db level with a more robust system
     if (this.#ids.includes(newId)) {
