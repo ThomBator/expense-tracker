@@ -1,16 +1,24 @@
 import { Transaction } from "./Transaction.js";
 
-class TransactionsModel {
+class Transactions {
   #transactions;
   #ids;
   #balance;
+  #expenseTotal;
+  #incomeTotal;
+
   constructor() {
     this.#getIds();
     this.#transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+    this.#setBalance();
+    this.#setCategoryTotals();
   }
 
-  bindTransactionsChange(callback) {
-    this.onTransactionsChange = callback;
+  //Update transactions and totals on add, delete and app startup
+  #commit() {
+    localStorage.setItem("transactions", JSON.stringify(this.#transactions));
+    this.#setBalance();
+    this.#setCategoryTotals();
   }
 
   addTransaction({ type, description, amount }) {
@@ -22,16 +30,17 @@ class TransactionsModel {
     this.#transactions.push(newTransaction);
 
     this.#commit();
+
+    return this.#transactions;
+
+    
   }
 
-  deleteTransaction(event) {
-    if (!event.target.classList.contains("delete-button")) return;
-    const transaction = event.target.closest("li");
-    const transactionType = transaction.dataset.transactionType;
-    const transactionId = transaction.dataset.transactionId;
-    transaction.remove();
+  //remove view logic
+  deleteTransaction(id) {
+
     this.#transactions = this.#transactions.filter((transaction) => {
-      return transaction.id !== Number(transactionId);
+      return transaction.id !== Number(id);
     });
     this.#commit();
   }
@@ -49,13 +58,6 @@ class TransactionsModel {
     }
     this.#ids = JSON.parse(idsJSON);
   }
-  //Check local storage for existing transactions
-  #commit() {
-    console.log("made it to commit");
-    console.log("#transactions array", this.#transactions);
-    localStorage.setItem("transactions", JSON.stringify(this.#transactions));
-    this.onTransactionsChange();
-  }
 
   //Create a random id
   #generateId() {
@@ -70,6 +72,36 @@ class TransactionsModel {
     localStorage.setItem("ids", JSON.stringify(this.#ids));
     return newId;
   }
+
+  getBalance() {
+    return this.#balance;
+  }
+
+  getCategoryTotals() {
+    return { expenses: this.#expenseTotal, income: this.#incomeTotal };
+  }
+
+  #setBalance() {
+    this.#balance = this.#transactions.reduce((accumulater, transaction) => {
+      if (transaction.type === "expense")
+        return accumulater - Number(transaction.amount);
+      if (transaction.type === "income")
+        return accumulater + Number(transaction.amount);
+    }, 0);
+  }
+
+  #setCategoryTotals() {
+    this.#expenseTotal = 0;
+    this.#incomeTotal = 0;
+
+    this.#transactions.forEach((transaction) => {
+      if (transaction.type === "expense") {
+        this.#expenseTotal += Number(transaction.amount);
+      } else {
+        this.#incomeTotal += Number(transaction.amount);
+      }
+    });
+  }
 }
 
-export { TransactionsModel };
+export { Transactions };

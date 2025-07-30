@@ -17,7 +17,7 @@
 #transaction-form {
   display: flex;
   width: 60%;
-  justify-content: space-between;
+  justify-content: space-evenly;
   gap: 2rem;
 }
 
@@ -92,19 +92,19 @@
 .dollar-sign {
   position: absolute;
   padding-top: 5px;
-  padding-left: 2px;
+  padding-left: 5px;
   font-size: 1rem;
 }
 
 input,
 select {
-  padding-block: 0.25rem;
-  padding-inline: 0.25;
+  padding-block: 0.3rem;
+  padding-inline: 0.3;
   width: 100%;
 }
 
 .form-amount > input {
-  padding-left: 10px;
+  padding-left: 15px;
 }
 
 /*Button styles*/
@@ -113,13 +113,14 @@ button {
   background-color: #000;
   color: #fff;
   font-weight: 600;
-  padding: 0.25rem;
+  padding: 0.4rem;
   transition: 200ms ease-in-out;
 }
 
 button:hover {
   transform: scale(1.1);
   background-color: #1e1e1e;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 1024px) {

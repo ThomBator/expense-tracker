@@ -10,7 +10,7 @@ class ExpenseTrackerView {
   bindAddTransaction(handler) {
     this.form.addEventListener("submit", (e) => {
       e.preventDefault();
-      console.log("handle transaction");
+      console.log("handle submit");
       const type = this.form.querySelector("#transaction-type");
       const description = this.form.querySelector("#description");
       const amount = this.form.querySelector("#amount");
@@ -19,27 +19,63 @@ class ExpenseTrackerView {
         description: description.value,
         amount: amount.value,
       });
+      this.resetFields(description, amount);
     });
   }
 
   bindDeleteTransaction(handler) {
-    this.form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      console.log("handle delete transaction");
+    document.addEventListener("click", (e) => {
+      console.log("clicked", e.target);
+      if (!e.target.classList.contains("delete-button")) return;
+      const transaction = e.target.closest(".transaction-line-item");
+      console.log(transaction);
+      const transactionId = transaction.dataset.transactionId;
+      console.log(transactionId);
+      handler(transactionId);
     });
   }
 
+  setBalance(balanceAmount) {
+    if (balanceAmount < 0) {
+      const posBalance = balanceAmount * -1;
+      balance.innerText = `Balance: -\$${posBalance.toLocaleString("en")}`;
+    } else {
+      balance.innerText = `Balance: \$${balanceAmount.toLocaleString("en")}`;
+    }
+  }
+
+  setCategoryTotals(totals) {
+    const { expenses, income } = totals;
+    const expensesTotalElement = document.getElementById("expenses-total");
+    const incomeTotalElement = document.getElementById("income-total");
+
+    expensesTotalElement.innerText = `Total: \$${expenses.toLocaleString(
+      "en"
+    )}`;
+    incomeTotalElement.innerText = `Total: \$${income.toLocaleString("en")}`;
+  }
+
   setLineItemDate(transactionDate, dateElement) {
-    console.log('tDate', transactionDate);
     //New transaction objects have a date object attached, but when the json is parsed from localStorage date was returning as a string
     let dateObj =
       typeof transactionDate === "string"
         ? new Date(transactionDate)
         : transactionDate;
-    dateElement.innerText = `${(dateObj.getDate()).toString().padStart(2,'0')}/${(dateObj.getMonth() + 1).toString().padStart(2, '0')}/${(dateObj
-      .getFullYear() % 100)
+    dateElement.innerText = `${dateObj
+      .getDate()
+      .toString()
+      .padStart(2, "0")}/${(dateObj.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}/${(dateObj.getFullYear() % 100)
       .toString()
       .padStart(2, "0")}`;
+  }
+
+  clearTransactions() {
+    const elements = document.getElementsByClassName("transaction-line-item");
+    while (elements[0]) {
+      elements[0].parentNode.removeChild(elements[0]);
+    }
   }
 
   renderTransaction(transaction) {
@@ -66,22 +102,12 @@ class ExpenseTrackerView {
     } else if (transaction.type === "income") {
       const list = document.querySelector("#income-list");
       list.appendChild(lineItem);
-
     }
-    
   }
-   
-  resetFields(type, description, amount) {
+
+  resetFields(description, amount) {
     description.value = "";
     amount.value = "";
-  }
-
-  deleteTransaction(event) {
-    if (!event.target.classList.contains("delete-button")) return;
-    const transaction = event.target.closest("li");
-    const transactionType = transaction.dataset.transactionType;
-    const transactionId = transaction.dataset.transactionId;
-    transaction.remove();
   }
 }
 
