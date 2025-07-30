@@ -1,6 +1,6 @@
 # Expense-tracker
 
-![Expense tracker image](./expense-tracker.png)
+![Expense tracker image](./assets/expense-tracker.png)
 
 A simple expense tracker in **vanilla JavaScript**
 
